@@ -2,7 +2,7 @@
 
 namespace _2HerenciaSimpleIES
 {
-    internal class _2HerenciaSimple : _1MayoresDeEdad
+    internal class _2HerenciaSimple
 {
         static int i = 1;
         
@@ -33,18 +33,16 @@ namespace _2HerenciaSimpleIES
 
                 Console.WriteLine("---PERSONA {0}---", i);
                 MetodosStatic.comprobarDatos(ref miNombre, ref misApellidos, ref miEdad);
-                comprobarProfesion(ref profesion); //Metodo donde elige el usuario si es profesor o alumno.
-                string nombreModificado = MetodosStatic.eliminarEspaciosNombre(miNombre);
-                string apellidoModificado = MetodosStatic.eliminarEspaciosApellidos(misApellidos);
-                string datos = persona.convertirCadena(ref nombreModificado, apellidoModificado);
+                string datos = MetodosStatic.convertirCadena(ref miNombre, misApellidos);
                 string[] misDatos = datos.Split(' ');
 
-                if (MetodosStatic.MisPersonas.Count >= 1 && MetodosStatic.Equals(nombreModificado, apellidoModificado) )
+                if (MetodosStatic.MisPersonas.Count >= 1 && Persona.Equals(miNombre, misApellidos) )
                 {
                     Console.WriteLine("La persona introducida ya esta en la lista.");
                 }
                 else
                 {
+                    comprobarProfesion(ref profesion); //Metodo donde elige el usuario si es profesor o alumno.
                     //Si profesion es alumno nos iniciara el siguiente condicional, si no se iria al else para pedir los datos del profesor
                     if (profesion == 1)
                     {
@@ -52,6 +50,9 @@ namespace _2HerenciaSimpleIES
                         {
                             Console.WriteLine("Este nº de expediente ya existe.");
                         }
+
+
+
                     }
                     else
                     {
@@ -86,6 +87,7 @@ namespace _2HerenciaSimpleIES
             do
             {
 
+
                 Console.WriteLine("ESCOJE UNA OPCIÓN: \n1.-Alumno\n2.-Maestro: \t==>OPCIÓN(1/2)");
 
                 esProfesion = int.TryParse(Console.ReadLine(), out profesion);
@@ -115,7 +117,7 @@ namespace _2HerenciaSimpleIES
             {
                 Console.WriteLine("Nº EXPEDIENTE: ");
 
-            } while (!int.TryParse(Console.ReadLine(), out numExpediente));
+            } while ((!int.TryParse(Console.ReadLine(), out numExpediente)) || numExpediente<0);
 
             if (mismoExpediente(numExpediente, misAlumnos))
             {
@@ -124,6 +126,18 @@ namespace _2HerenciaSimpleIES
             }
             else
             {
+
+                MetodosStatic.MisPersonas.AddRange(new[] {
+                            new Persona
+                            {
+                                nombre = misDatos[0],
+                                apellidos = misDatos[1] + " " +misDatos[2],
+                                edad = miEdad,
+                                email = persona.GenerarCorreoElectronico(misDatos[0],misDatos[1] + " " +misDatos[2]),
+                                
+                            }
+                        });
+
                 //Añadiremos el alumno al List<>
                 misAlumnos.AddRange(new[] {
                             new Alumno
@@ -147,6 +161,18 @@ namespace _2HerenciaSimpleIES
             Console.WriteLine("MATERIA QUE IMPARTE:");
             materiaImpartida = Console.ReadLine();
 
+            MetodosStatic.MisPersonas.AddRange(new[] {
+                            new Persona
+                            {
+                                nombre = misDatos[0],
+                                apellidos = misDatos[1] + " " +misDatos[2],
+                                edad = miEdad,
+                                email = persona.GenerarCorreoElectronico(misDatos[0],misDatos[1] + " " +misDatos[2]),
+
+                            }
+                        });
+
+
             misProfesores.AddRange(new[] {
                             new Profesor
                             {
@@ -162,9 +188,10 @@ namespace _2HerenciaSimpleIES
         public static void mostrarAlumnos(List<Alumno> misAlumnos)
         {
             Console.WriteLine();
+            Console.WriteLine("\t\t\t////////////ALUMNOS////////////");
             if (misAlumnos.Count == 0)
             {
-                Console.WriteLine("No hay profesores.");
+                Console.WriteLine("\nNO HAY ALUMNOS DISPONIBLES.");
             }
             else
             {
@@ -184,9 +211,10 @@ namespace _2HerenciaSimpleIES
         public static void mostrarProfesor(List<Profesor> misProfesores)
         {
             Console.WriteLine();
+            Console.WriteLine("\t\t\t////////////PROFESORES////////////");
             if (misProfesores.Count == 0)
             {
-                Console.WriteLine("No hay profesores.");
+                Console.WriteLine("\nNO HAY PROFESORES DISPONIBLES.");
             }
             else
             {

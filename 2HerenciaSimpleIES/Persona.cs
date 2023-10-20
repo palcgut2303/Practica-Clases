@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _2HerenciaSimpleIES;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,23 +19,26 @@ namespace EjerciciosClases
 
         public string email { get; set;}
 
-       
-        //Metodo para comprobar edad de la persona.
-        public bool comprobarEdad(int edad)
-        {
-           
-            if (edad > 0 && edad <= 120)
-            {
-                return  true;
-            }
-            return false;
+        public Persona() { 
+        
         }
 
-        
+        public Persona(string nombre, string apellidos , int edad)
+        {
+            this.nombre = nombre;
+            this.apellidos = apellidos;
+            this.edad = edad;
+            this.email = GenerarCorreoElectronico(nombre,apellidos);
+        }
 
-        
+        //Sobrecarga de operadores
+        public static bool operator  > (Persona p1,Persona p2) => p1.edad > p2.edad ? true : false;
+
+        public static bool operator < (Persona p1, Persona p2) => p1.edad < p2.edad ? true : false;
+
+
         //Metodo para generar el correo electronico.
-        public string GenerarCorreoElectronico(string nombre, string apellidos)
+        public virtual string GenerarCorreoElectronico(string nombre, string apellidos)
         {
             string primerasDosLetrasApellido2 = "";
 
@@ -67,50 +71,19 @@ namespace EjerciciosClases
             
         }
 
-        //Metodo para convertir las cadenas de texto nombre y apellidos, en priimera letra mayuscula de cada palabra,
-        public string convertirCadena(ref string nombre, string apellidos)
+        
+
+        
+        //Metodo para comprobar si existe la misma persona.
+
+        public static bool Equals(string nombre, string apellido)
         {
-            string[] nombreSeparados = nombre.Split(" ");
-            string cadenaNombre = "";
-            string apellido2 = "";
-            string apellido1 = "";
-            for (int i = 0; i < nombreSeparados.Length; i++)
-            {
-
-                cadenaNombre += nombreSeparados[i].Substring(0, 1).ToUpper() + nombreSeparados[i].Substring(1).ToLower();
-            }
-
-
-
-            string[] partesApellidos = apellidos.Split(' ');
-
-            if (partesApellidos.Length >= 2)
-            {
-                // Convierte la primera letra de cada apellido en mayúscula y las demás en minúscula
-                apellido1 = partesApellidos[0].Substring(0, 1).ToUpper() + partesApellidos[0].Substring(1).ToLower();
-                apellido2 = partesApellidos[1].Substring(0, 1).ToUpper() + partesApellidos[1].Substring(1).ToLower();
-
-
-            }
-            else
-            {
-                apellido1 = partesApellidos[0].Substring(0, 1).ToUpper() + partesApellidos[0].Substring(1).ToLower();
-            }
-
-
-            return cadenaNombre + " " + apellido1 + " " + apellido2;
+            return MetodosStatic.MisPersonas.Any(persona =>
+                string.Equals(nombre, persona.nombre, StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(apellido, persona.apellidos, StringComparison.OrdinalIgnoreCase)
+            );
         }
 
-        public override bool Equals(object obj)
-        {
-            // Convierte el objeto a una instancia de Persona
-            Persona otraPersona = (Persona)obj;
-
-            // Compara las propiedades Nombre y Edad para determinar la igualdad
-            string[] apellidoSeparado = apellidos.Split(" ");
-            string[] apellidoSeparado2 = otraPersona.apellidos.Split(" ");
-            return (nombre == otraPersona.nombre) && (apellidoSeparado[0] == apellidoSeparado2[0]) && (apellidoSeparado[1] == apellidoSeparado2[1]);
-        }
 
         public string toString()
         {

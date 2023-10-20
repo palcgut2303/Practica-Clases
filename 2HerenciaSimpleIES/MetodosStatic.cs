@@ -46,31 +46,6 @@ namespace _2HerenciaSimpleIES
             return nombre;
         }
 
-        //Metodo para saber si es la misma persona.
-        public static bool Equals(string nombre, string apellido)
-        {
-            string[] apellidoSeparado = apellido.Split(" ");
-            foreach (Persona persona in misPersonas)
-            {
-                string[] apellidoSeparado2 = persona.apellidos.Split(" ");
-
-                if (nombre.ToLower() == persona.nombre.ToLower())
-                {
-                    if (apellidoSeparado[0].ToLower() == apellidoSeparado2[0].ToLower())
-                    {
-                        if (apellidoSeparado[1].ToLower() == apellidoSeparado2[1].ToLower())
-                        {
-                            return true;
-                        }
-                    }
-
-                }
-
-
-            }
-            return false;
-
-        }
 
         //Metodo para introducir datos y comprobar que se introducen bien sin ningun fallo.
         public static void comprobarDatos(ref string nombre, ref string apellido, ref int edad)
@@ -86,7 +61,7 @@ namespace _2HerenciaSimpleIES
                 nombre = Console.ReadLine().Trim();
                 int numericValue;
                 nombreTrue = int.TryParse(nombre, out numericValue); ;
-
+                nombre = eliminarEspaciosNombre(nombre);
             } while (nombreTrue || nombre == " " || nombre == "");
 
             do
@@ -95,7 +70,7 @@ namespace _2HerenciaSimpleIES
                 apellido = Console.ReadLine();
                 int numericValue;
                 apellidoTrue = int.TryParse(apellido, out numericValue); ;
-
+                apellido = eliminarEspaciosApellidos(apellido);
             } while (apellidoTrue || apellido == " " || apellido == "");
 
 
@@ -106,12 +81,57 @@ namespace _2HerenciaSimpleIES
 
                 esEdad = int.TryParse(Console.ReadLine(), out edad);
 
-            } while (!esEdad || !miPersona.comprobarEdad(edad));
+            } while (!esEdad || !comprobarEdad(edad));
 
 
 
 
         }
+
+        //Metodo para convertir las cadenas de texto nombre y apellidos, en priimera letra mayuscula de cada palabra,
+        public static string convertirCadena(ref string nombre, string apellidos)
+        {
+            string[] nombreSeparados = nombre.Split(" ");
+            string cadenaNombre = "";
+            string apellido2 = "";
+            string apellido1 = "";
+            for (int i = 0; i < nombreSeparados.Length; i++)
+            {
+
+                cadenaNombre += nombreSeparados[i].Substring(0, 1).ToUpper() + nombreSeparados[i].Substring(1).ToLower();
+            }
+
+
+
+            string[] partesApellidos = apellidos.Split(' ');
+
+            if (partesApellidos.Length >= 2)
+            {
+                // Convierte la primera letra de cada apellido en mayúscula y las demás en minúscula
+                apellido1 = partesApellidos[0].Substring(0, 1).ToUpper() + partesApellidos[0].Substring(1).ToLower();
+                apellido2 = partesApellidos[1].Substring(0, 1).ToUpper() + partesApellidos[1].Substring(1).ToLower();
+
+            }
+            else
+            {
+                apellido1 = partesApellidos[0].Substring(0, 1).ToUpper() + partesApellidos[0].Substring(1).ToLower();
+            }
+
+
+            return cadenaNombre + " " + apellido1 + " " + apellido2;
+        }
+
+        //Metodo para comprobar edad de la persona.
+        public static bool comprobarEdad(int edad)
+        {
+
+            if (edad > 0 && edad <= 120)
+            {
+                return true;
+            }
+            return false;
+        }
+
 
     }
 }
