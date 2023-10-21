@@ -12,9 +12,12 @@ namespace _2HerenciaSimpleIES
     {
         public string materia { get; set; }
 
+        public Profesor(string nombre, string apellido, int edad) : base(nombre, apellido, edad)
+        {
+        }
+
         public enum TipoFuncionario : uint
         {
-            //Tienen asignados los valores de constante por defecto
             Interino = 1,
             EnPracticas = 2,
             DeCarrera = 3

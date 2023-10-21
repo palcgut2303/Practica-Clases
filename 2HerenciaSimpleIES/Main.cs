@@ -8,6 +8,7 @@ namespace _2HerenciaSimpleIES
         
         static void Main(string[] args)
         {
+            MetodosStatic.menu();
             init2();
         }
 
@@ -161,28 +162,7 @@ namespace _2HerenciaSimpleIES
             Console.WriteLine("MATERIA QUE IMPARTE:");
             materiaImpartida = Console.ReadLine();
 
-            MetodosStatic.MisPersonas.AddRange(new[] {
-                            new Persona
-                            {
-                                nombre = misDatos[0],
-                                apellidos = misDatos[1] + " " +misDatos[2],
-                                edad = miEdad,
-                                email = persona.GenerarCorreoElectronico(misDatos[0],misDatos[1] + " " +misDatos[2]),
-
-                            }
-                        });
-
-
-            misProfesores.AddRange(new[] {
-                            new Profesor
-                            {
-                                nombre = misDatos[0],
-                                apellidos = misDatos[1] + " " +misDatos[2],
-                                edad = miEdad,
-                                email = persona.GenerarCorreoElectronico(misDatos[0],misDatos[1] + " " +misDatos[2]),
-                                materia = materiaImpartida
-                            }
-                        });
+            
         }
         //Mostramos alumnos recorriendo el List<>
         public static void mostrarAlumnos(List<Alumno> misAlumnos)

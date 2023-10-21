@@ -132,6 +132,57 @@ namespace _2HerenciaSimpleIES
             return false;
         }
 
+        public static int WordCount(this string entrada)
+        {
+            // Dividimos la cadena en palabras utilizando los espacios como separadores
+            string[] palabras = entrada.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); //Metodo del Split que elimina las subcadenas vacias.
+            return palabras.Length;
+        }
+
+        public static string FirstLetterToUpper(this string entrada)
+        {
+            if (string.IsNullOrEmpty(entrada)) //Si es nula devolvemos la cadena que nos ha introducida.
+            {
+                return entrada;
+            }
+            
+            //Convertimos la primera cadena de la frase con el substring y el toUpper, el resto en minuscula.
+            string primeraLetra = entrada.Substring(0, 1).ToUpper();
+            string cadena = entrada.Substring(1).ToLower();
+
+            return primeraLetra + cadena;
+        }
+
+        public static bool SeekRemoved(this List<Persona> lista, Persona personaBuscar)
+        {
+            int index = lista.FindIndex(p => p.Equals(personaBuscar)); //Variable donde nos devuelve el indice de la persona en la lista
+            //Si nos devuelve mayor o igual que 0 lo borra, si no, no existe.
+
+            if (index >= 0)
+            {
+                lista.RemoveAt(index);
+                return true;
+            }
+
+            return false;
+
+        }
+
+        public static void añadirPersonas(Persona p)
+        {
+            misPersonas.Add(p);
+        }
+
+        public static void menu()
+        {
+            Console.WriteLine("***********MENU***********\n" +
+                "1. Añadir Personas\n" +
+                "2. Visualizar Personas \n" +
+                "3. Borrar una persona\n" +
+                "4.Datos de un empleado público\n" +
+                "5. Obtener el mayor de 2 persoanas\n" +
+                "6. Salir");
+        }
 
     }
 }

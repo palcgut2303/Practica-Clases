@@ -13,6 +13,19 @@ namespace _2HerenciaSimpleIES
     {
         public int numeroExpediente { get; set; }
 
+        public Alumno()
+        {
+
+        }
+
+        public Alumno(string nombre, string apellido, int edad, int numeroExpediente) : base(nombre, apellido, edad)
+        {
+
+            this.numeroExpediente = numeroExpediente;
+
+        }
+
+
         public override string ToString()
         {
             return $"{base.ToString()} {numeroExpediente}";
@@ -23,15 +36,6 @@ namespace _2HerenciaSimpleIES
             return "a" + base.GenerarCorreoElectronico(nombre, apellidos) + "23";
         }
         
-        public Alumno()
-        {
-            
-        }
-
-        public Alumno(string nombre,string apellido,int edad, int numeroExpediente) : base(nombre,apellido,edad) {
-
-            this.numeroExpediente = numeroExpediente;    
         
-        }
     }
 }
