@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _2HerenciaSimpleIES
 {
-    internal class ProfesorInterino : Profesor
+    public class ProfesorInterino : Profesor
     {
         public ProfesorInterino(string nombre, string apellidos, int edad)
         : base(nombre, apellidos, edad)
