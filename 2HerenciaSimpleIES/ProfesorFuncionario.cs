@@ -51,7 +51,7 @@ namespace _2HerenciaSimpleIES
         }
 
 
-
+        //METODO PARA OBTENER LOS SEXENIOS, MEDIANTE DateTime.
         public int GetSexenios()
         {
             DateTime fechaActual = DateTime.Now;
@@ -65,6 +65,7 @@ namespace _2HerenciaSimpleIES
             return añosTrabajados / 6;
         }
 
+        //METODO PARA OBTENER LOS TRIENIOS, MEDIANTE DateTime.
         public int GetTrienios()
         {
             DateTime fechaActual = DateTime.Now;
@@ -78,7 +79,7 @@ namespace _2HerenciaSimpleIES
             return añosTrabajados / 3;
         }
 
-        
+        //METODO PARA AVERIGUAR EL TIEMPO DE SERVICIO QUE ESTA EL TRABAJDOR EN LA EMPRESA.
         public (int años, int días, int meses) TiempoServicio()
         {
             DateTime fechaActual = DateTime.Now;

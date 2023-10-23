@@ -15,7 +15,7 @@ namespace _2HerenciaSimpleIES
         public Profesor(string nombre, string apellido, int edad) : base(nombre, apellido, edad)
         {
         }
-
+        //TIPO ENUM DONDE TENDREMOS TRES VALORES.
         public enum TipoFuncionario : uint
         {
             Interino = 1,

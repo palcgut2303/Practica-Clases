@@ -20,7 +20,7 @@ namespace _2HerenciaSimpleIES
             set { misPersonas = value; }
         }
 
-        static int i = 0;
+        static int i = 1;
 
         static _2HerenciaSimple main = new _2HerenciaSimple();
 
@@ -39,6 +39,7 @@ namespace _2HerenciaSimpleIES
             return apellidos;
         }
 
+        //METODO QUE ELIMINA LOS ESPACIOS INNECESARIOS DE LA CADENA, CON UNA EXPRESION REGULAR.
         public static string eliminarEspaciosNombre(string nombre)
         {
 
@@ -90,7 +91,7 @@ namespace _2HerenciaSimpleIES
         }
 
         //Metodo para convertir las cadenas de texto nombre y apellidos, en priimera letra mayuscula de cada palabra,
-        public static string convertirCadena(ref string nombre, string apellidos)
+        public static string convertirCadena(ref string nombre,ref string apellidos)
         {
             string[] nombreSeparados = nombre.Split(" ");
             string cadenaNombre = "";
@@ -154,20 +155,14 @@ namespace _2HerenciaSimpleIES
             return primeraLetra + cadena;
         }
 
+        //METODO QUE BORRA PERSONAS, INTRODUCIENDO POR PARAMETRO NOMBRE, APELLIDO, EDAD
         public static bool SeekRemoved(this string nombre,string apellidos,int edad)
         {
             foreach(var objecto in MisPersonas){
-                if(objecto.nombre == nombre)
+                if(objecto.nombre == nombre && objecto.apellidos == apellidos && objecto.edad == edad) //SI COINCIDEN TODOS LOS PARAMETROS, ELIMINA DE LA LISTA.
                 {
-                  if(objecto.apellidos == apellidos)
-                    {
-                        if(objecto.edad == edad)
-                        {
-                            MisPersonas.Remove(objecto);
-                            return true;
-                        }
-                    }
-
+                  MisPersonas.Remove(objecto);
+                  return true;
                 }
             }
             return false;
@@ -194,10 +189,10 @@ namespace _2HerenciaSimpleIES
 
                 Console.WriteLine("---PERSONA {0}---", i);
                 MetodosStatic.comprobarDatos(ref miNombre, ref misApellidos, ref miEdad);
-                string datos = MetodosStatic.convertirCadena(ref miNombre, misApellidos);
+                string datos = MetodosStatic.convertirCadena(ref miNombre,ref misApellidos);
                 string[] misDatos = datos.Split(' ');
 
-                if (MetodosStatic.MisPersonas.Count >= 1 && Persona.Equals(miNombre, misApellidos))
+                if (MetodosStatic.MisPersonas.Count >= 1 && Persona.Equals(miNombre, misApellidos)) //UTILIZAMOS EL METODO EQUALS PARA VER SI YA HAY UNA PERSONA IGUAL INTRODUCIDA.
                 {
                     Console.WriteLine("La persona introducida ya esta en la lista.");
                 }
@@ -231,6 +226,7 @@ namespace _2HerenciaSimpleIES
             } while (respuesta.ToLower() == "si");
         }
 
+        //METODO MENU DONDE TENEMOS EL SWITCH CON TODAS LAS OPCIONES.
         public static void menu()
         {
             int opcionMenu = 0;
@@ -349,6 +345,7 @@ namespace _2HerenciaSimpleIES
 
             } while (int.TryParse(materiaImpartida,out _));
 
+            //OPCIONES DE TIPO PROFESOR
             do
             {
                 Console.WriteLine("Elige el tipo de profesor: \n1. Interino\n" +
@@ -358,6 +355,7 @@ namespace _2HerenciaSimpleIES
 
             } while (!int.TryParse(Console.ReadLine(), out miOpcion));
             
+            //SI ES INTERINO NO LE PEDIMOS MAS COSAS EN EL CASO CONTRARIO, AÑO DE INGRESO, DESTINO DEFINITIVO Y TIPO DE MEDICO.
             switch(miOpcion)
             {
                 case 1:
@@ -543,6 +541,7 @@ namespace _2HerenciaSimpleIES
             mostrarProfesor();
         }
 
+        //OPCION BORRADO PERSONAS LLAMANDO AL METODO CREADO ANTES.
         public static void borradoPersonas()
         {
             Console.WriteLine("******BORRADO DE PERSONAS******");
@@ -551,8 +550,12 @@ namespace _2HerenciaSimpleIES
             int edad = 0;
 
             comprobarDatos(ref nombre, ref apellidos, ref edad);
+            string datos = convertirCadena(ref nombre, ref apellidos);
+            string[] misDatos = datos.Split(' ');
+            string apellidosConver = misDatos[1] + " " + misDatos[2];
 
-           if(SeekRemoved(nombre,apellidos,edad))
+
+            if (SeekRemoved(misDatos[0], apellidosConver, edad))
             {
                 Console.WriteLine("Borrado Correctamente");
             }
@@ -560,6 +563,7 @@ namespace _2HerenciaSimpleIES
 
         }
         
+        //OPCION DE MOSTRAR DATOS DEL EMPLEADO PUBLIC, COMO TIEMPO TRABAJADO, SEXENIO, TRIENIOS.
         public static void datosEmpleadoPublico()
         {
             Console.WriteLine("******DATOS DEL EMPLEADO******");
@@ -568,7 +572,7 @@ namespace _2HerenciaSimpleIES
             int edad = 0;
             bool hayFuncionarios = false;
             comprobarDatos(ref nombre, ref apellidos, ref edad);
-            string datos = convertirCadena(ref nombre, apellidos);
+            string datos = convertirCadena(ref nombre,ref apellidos);
             string[] misDatos = datos.Split(' ');
             string apellidosConver = misDatos[1] + " " + misDatos[2];
 
@@ -597,6 +601,7 @@ namespace _2HerenciaSimpleIES
 
         }
 
+        //OPCION QUE TE DICE QUE PERSONA ES MAYOR, UTILIZANDO LA SOBRECARGA DE OPERADORES > <
         public static void mayorEdad()
         {
             string nombre = "";
@@ -607,30 +612,65 @@ namespace _2HerenciaSimpleIES
             Console.WriteLine("******COMPARAR 2 PERSONAS******");
             Console.WriteLine("PERSONA 1");
             comprobarDatos(ref nombre, ref apellidos, ref edad);
-            nombre = nombre.FirstLetterToUpper();
-            apellidos = apellidos.FirstLetterToUpper();
-            Persona p1 = new Persona(nombre,apellidos,edad);
-            
-            Console.WriteLine("PERSONA 2");
-            comprobarDatos(ref nombre, ref apellidos, ref edad);
-            nombre = nombre.FirstLetterToUpper();
-            apellidos = apellidos.FirstLetterToUpper();
-            Persona p2 = new Persona(nombre, apellidos, edad);
+            string datos = convertirCadena(ref nombre,ref apellidos);
+            string[] misDatos = datos.Split(" ");
+            if(buscarPersona(MisPersonas, misDatos[0], misDatos[1] + " " + misDatos[2]) != null)
+            {
+                Persona p1 = new Persona(nombre, apellidos, edad);
 
-            if(p1 > p2)
-            {
-                Console.WriteLine("PERSONA MAS MAYOR: \n" + p1.toString());
-            }
-            else if(p2 > p1) 
-            {
-                Console.WriteLine("PERSONA MAS MAYOR: \n" + p2.toString());
+                Console.WriteLine("PERSONA 2");
+                comprobarDatos(ref nombre, ref apellidos, ref edad); 
+                string datos2 = convertirCadena(ref nombre,ref apellidos);
+                string[] misDatos2 = datos2.Split(" ");
+                if (buscarPersona(MisPersonas, misDatos2[0], misDatos2[1] + " " + misDatos2[2]) != null)
+                {
+                    Persona p2 = new Persona(nombre, apellidos, edad);
+
+                    if (p1 > p2)
+                    {
+                        Console.WriteLine("PERSONA MAS MAYOR: \n" + p1.toString());
+                    }
+                    else if (p2 > p1)
+                    {
+                        Console.WriteLine("PERSONA MAS MAYOR: \n" + p2.toString());
+                    }
+                    else
+                    {
+                        Console.WriteLine("PERSONA DE IGUAL EDAD: \n" + p1.toString() + "\n" + p2.toString());
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No se ha encontrado");
+                }
+
+
             }
             else
             {
-                Console.WriteLine("PERSONA DE IGUAL EDAD: \n" + p1.toString() + "\n" + p2.toString());
+                Console.WriteLine("No se ha encontrado");
             }
 
+            
+
+            
+
             Console.WriteLine();
+        }
+
+        //METODO AUXILIAR PARA SABER SI SE ENCUENTRA UNA PERSONA EN LA LISTA O NO.
+        public static Persona buscarPersona(List<Persona> lista, string nombre,string apellidos) {
+
+            foreach(Persona persona in lista)
+            {
+                if(persona.nombre == nombre && persona.apellidos == apellidos)
+                {
+                    
+                    return persona;
+                }
+            }
+
+            return null;
         }
 
     }

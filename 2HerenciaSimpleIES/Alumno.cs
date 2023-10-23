@@ -18,6 +18,7 @@ namespace _2HerenciaSimpleIES
 
         }
 
+        //CONSTRUCTORES HEREDANDO DE LA CLASE BASE, Y SU ATRIBUTO PROPIO
         public Alumno(string nombre, string apellido, int edad, int numeroExpediente) : base(nombre, apellido, edad)
         {
 
@@ -25,15 +26,16 @@ namespace _2HerenciaSimpleIES
 
         }
 
-
+        //METODO ToSTRING.
         public override string ToString()
         {
             return $"{base.ToString()} {numeroExpediente}";
         }
 
+        //METODO QUE TE GENERA EL CORREO ELECTRONICO
         public override string GenerarCorreoElectronico(string nombre, string apellidos)
         {
-            return "a" + base.GenerarCorreoElectronico(nombre, apellidos) + "23";
+            return "a" + base.GenerarCorreoElectronico(nombre, apellidos);
         }
         
         

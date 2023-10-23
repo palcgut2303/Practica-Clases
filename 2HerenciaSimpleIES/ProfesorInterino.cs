@@ -13,6 +13,7 @@ namespace _2HerenciaSimpleIES
         {
             
         }
+        //CONSTRUCTOR QUE HEREDA DE LA CLASE BASE.
         public ProfesorInterino(string nombre, string apellidos, int edad, string materia, TipoFuncionario tipoProfesor)
         : base(nombre, apellidos, edad)
         {

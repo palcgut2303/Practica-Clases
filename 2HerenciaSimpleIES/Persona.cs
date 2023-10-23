@@ -23,6 +23,7 @@ namespace EjerciciosClases
         
         }
 
+        //CONSTRUCTOR.
         public Persona(string nombre, string apellidos , int edad)
         {
             this.nombre = nombre;
@@ -64,7 +65,7 @@ namespace EjerciciosClases
             }
             else //si introduce un solo apellido.
             {
-                return  primerasDosLetrasApellido1  + primerasDosLetrasApellido1 + primeraLetraNombre + "@trass.com";
+                return  primerasDosLetrasApellido1  + primerasDosLetrasApellido1 + primeraLetraNombre + "23@trass.com";
             }
             
             
